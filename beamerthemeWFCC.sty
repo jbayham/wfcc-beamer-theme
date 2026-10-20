@@ -1,0 +1,89 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerthemeWFCC}[2026/10/19 Portable WFCC dark theme]
+\RequirePackage{tikz}
+\RequirePackage{graphicx}
+\RequirePackage{adjustbox}
+\IfFileExists{sourcesanspro.sty}{\RequirePackage[default]{sourcesanspro}}{\RequirePackage{lmodern}}
+\newcommand{\wfccEvent}{}
+\def\wfccCollaborators{}
+\def\wfccImage{}
+\newcommand{\WFCCevent}[1]{\renewcommand{\wfccEvent}{#1}}
+\newcommand{\WFCCcollaborators}[1]{\renewcommand{\wfccCollaborators}{#1}}
+\newcommand{\WFCCtitleimage}[1]{\renewcommand{\wfccImage}{#1}}
+
+\definecolor{smokebg}{HTML}{08111D}
+\definecolor{smokesurface}{HTML}{142333}
+\definecolor{smokeink}{HTML}{EAF0F4}
+\definecolor{smokemuted}{HTML}{A9BBC8}
+\definecolor{smokeorange}{HTML}{F5A33B}
+\definecolor{smokepurple}{HTML}{BA83E5}
+\definecolor{smokeline}{HTML}{253441}
+\colorlet{csugreen}{smokeorange}
+\colorlet{lightcsugreen}{smokesurface}
+\setbeamercolor{normal text}{fg=smokeink,bg=smokebg}
+\setbeamercolor{background canvas}{bg=smokebg}
+\setbeamercolor{structure}{fg=smokeorange}
+\setbeamercolor{alerted text}{fg=smokepurple}
+\setbeamercolor{frametitle}{fg=smokeink,bg=smokebg}
+\setbeamercolor{title}{fg=smokeink}
+\setbeamercolor{section in head/foot}{fg=smokemuted,bg=smokebg}
+\setbeamercolor{footline}{fg=smokemuted,bg=smokebg}
+\setbeamercolor{block title}{fg=smokeorange,bg=smokesurface}
+\setbeamercolor{block body}{fg=smokeink,bg=smokesurface}
+\setbeamercolor{caption name}{fg=smokeorange}
+\setbeamercolor{bibliography entry author}{fg=smokeink}
+\setbeamercolor{bibliography entry title}{fg=smokeink}
+\setbeamercolor{bibliography entry location}{fg=smokemuted}
+\setbeamercolor{bibliography entry note}{fg=smokemuted}
+\setbeamerfont{frametitle}{size=\Large,series=\bfseries}
+\setbeamersize{text margin left=8mm,text margin right=8mm}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\raisebox{.2ex}{\scriptsize\textbullet}}
+\setbeamertemplate{itemize subitem}{\textendash}
+\setbeamertemplate{headline}{%
+  \vspace{2mm}%
+  \hspace{8mm}{\color{smokemuted}\fontsize{6}{7}\selectfont
+    \MakeUppercase{\insertsectionhead}}\par\vspace{1mm}}
+\setbeamertemplate{frametitle}{%
+  \vspace{1mm}\insertframetitle\par\vspace{2mm}%
+  {\color{smokeorange}\rule{11mm}{.65pt}}\vspace{1mm}}
+\setbeamertemplate{footline}{%
+  \hspace{8mm}\begin{beamercolorbox}[wd=\dimexpr\paperwidth-16mm\relax,ht=4mm,dp=2mm]{footline}%
+  \fontsize{6}{7}\selectfont \insertshortauthor\enspace /\enspace \insertshorttitle
+  \hfill\insertshortdate\hspace{4mm}{\color{smokeorange}\insertframenumber}
+  \end{beamercolorbox}}
+\hypersetup{colorlinks=true,linkcolor=smokeink,citecolor=smokemuted,urlcolor=smokeorange}
+\setbeamercolor{item projected}{fg=smokebg,bg=smokeorange}
+\setbeamercolor{enumerate item}{fg=smokeorange}
+% A cover-scaled image fills the right 43.7% without distortion.
+\setbeamertemplate{title page}{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \fill[smokesurface] ([xshift=-.437\paperwidth]current page.south east)
+      rectangle (current page.north east);
+    \ifx\wfccImage\@empty\else
+      \IfFileExists{\wfccImage}{%
+        \begin{scope}
+          \clip ([xshift=-.437\paperwidth]current page.south east)
+            rectangle (current page.north east);
+          \node[inner sep=0pt] at ([xshift=-.2185\paperwidth]current page.east)
+            {\adjincludegraphics[min size={.437\paperwidth}{\paperheight}]{\wfccImage}};
+        \end{scope}
+      }{\PackageWarning{beamerthemeWFCC}{Title image not found; using color fallback}}
+    \fi
+  \end{tikzpicture}%
+  \begin{minipage}{.50\textwidth}\raggedright
+    {\fontsize{22}{24}\selectfont\bfseries\inserttitle\par}
+    \ifx\insertsubtitle\@empty\else
+      \vspace{3mm}{\large\insertsubtitle\par}
+    \fi
+    \vspace{7mm}
+    {\color{smokeorange}\normalsize\insertauthor\par}
+    \vspace{2mm}{\color{smokemuted}\small\insertinstitute\par}
+    \ifx\wfccCollaborators\@empty\else
+      \vspace{3mm}{\color{smokemuted}\scriptsize\wfccCollaborators\par}
+    \fi
+    \vspace{4mm}{\small\wfccEvent\par}
+    \vspace{1mm}{\color{smokemuted}\small\insertdate\par}
+  \end{minipage}
+}
+\endinput
